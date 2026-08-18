@@ -1,0 +1,202 @@
+# ─────────────────────────────────────────────────────────────
+# AURA - Autonomous Utility Rover Architecture
+# .gitignore for the planned ROS 2 / Python / C++ / CAD stack
+# ─────────────────────────────────────────────────────────────
+
+# ---------- Secrets & credentials (NEVER COMMIT) ----------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_rsa.*
+id_ed25519
+id_ed25519.*
+*.ppk
+known_hosts
+credentials
+credentials.*
+secrets.yaml
+secrets.yml
+secrets.json
+*_secret*
+*_token*
+apikey*
+api_key*
+.netrc
+.aws/
+.ssh/
+
+# ---------- ROS 2 build artifacts ----------
+build/
+install/
+log/
+logs/
+devel/
+.catkin_tools/
+.colcon/
+colcon_build/
+*.colcon_install_layout
+COLCON_IGNORE
+AMENT_IGNORE
+.ament_flake8*
+
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# ---------- Virtual environments ----------
+venv/
+env/
+ENV/
+.venv/
+.virtualenv/
+virtualenv/
+conda-env/
+
+# ---------- C++ / CMake ----------
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+cmake_install.cmake
+Makefile
+compile_commands.json
+CTestTestfile.cmake
+_deps/
+*.o
+*.a
+*.la
+*.lo
+*.slo
+*.obj
+*.dylib
+*.dll
+*.exe
+*.out
+*.app
+
+# ---------- AI / ML model weights & datasets ----------
+# Large binaries: use Git LFS or an external store, not plain Git.
+*.pt
+*.pth
+*.onnx
+*.engine
+*.trt
+*.plan
+*.weights
+*.pb
+*.tflite
+*.h5
+*.ckpt
+*.safetensors
+ai/models/**
+!ai/models/.gitkeep
+!ai/models/README.md
+ai/datasets/**
+!ai/datasets/.gitkeep
+!ai/datasets/README.md
+
+# ---------- ROS bags & recorded data ----------
+*.bag
+*.db3
+*.mcap
+rosbag2_*/
+bags/
+
+# ---------- Maps generated at runtime ----------
+maps/*.pgm
+maps/*.yaml
+*.rtabmap
+
+# ---------- Simulation caches ----------
+.gazebo/
+.ignition/
+.gz/
+simulation/meshes/**/*.stl.bak
+
+# ---------- CAD working / lock files ----------
+*.f3d.lock
+*.bak
+*.autosave
+*~$*
+*.stl.tmp
+*.step.bak
+
+# ---------- Embedded / PlatformIO / Arduino ----------
+.pio/
+.pioenvs/
+.piolibdeps/
+firmware/**/build/
+*.elf
+*.hex
+*.bin
+!resources/**/*.bin
+
+# ---------- Editors & IDEs ----------
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*.sublime-workspace
+.ccls-cache/
+.clangd/
+
+# ---------- OS / machine-specific ----------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# ---------- Office / document temp files ----------
+~$*
+.~lock.*#
+*.tmp
+
+# ---------- Large media (prefer Git LFS) ----------
+media/videos/**
+!media/videos/.gitkeep
+*.mp4
+*.mov
+*.avi
+*.mkv
+
+# ---------- Node (used only by the doc generators in docs/generators) ----------
+node_modules/
+npm-debug.log*
+yarn-error.log*
+package-lock.json

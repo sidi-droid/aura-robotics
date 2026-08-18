@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page {
+    size: A4;
+    margin: 22mm 18mm 20mm 18mm;
+    @bottom-center {
+      content: "AURA — Autonomous Utility Rover Architecture";
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 7.5pt;
+      color: #9aa4b2;
+    }
+    @bottom-right {
+      content: "Page " counter(page) " of " counter(pages);
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 7.5pt;
+      color: #9aa4b2;
+    }
+  }
+  @page :first { margin: 0; @bottom-center { content: ""; } @bottom-right { content: ""; } }
+
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #1f2733;
+    font-size: 10.2pt;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* ---------- Cover ---------- */
+  .cover {
+    height: 297mm;
+    background: linear-gradient(150deg, #0b1f3a 0%, #123a63 55%, #1a5691 100%);
+    color: #fff;
+    padding: 42mm 26mm;
+    page-break-after: always;
+    position: relative;
+  }
+  .cover .kicker {
+    letter-spacing: 5px;
+    font-size: 10pt;
+    text-transform: uppercase;
+    color: #7fb2e6;
+    margin-bottom: 14mm;
+  }
+  .cover h1 {
+    font-size: 46pt;
+    line-height: 1.02;
+    margin: 0 0 6mm 0;
+    font-weight: 800;
+    letter-spacing: -1px;
+  }
+  .cover .subtitle {
+    font-size: 15pt;
+    font-weight: 300;
+    color: #cfe0f2;
+    max-width: 130mm;
+    line-height: 1.4;
+  }
+  .cover .rule { width: 46mm; height: 3px; background: #4f9bd9; margin: 10mm 0; border: 0; }
+  .cover .meta {
+    position: absolute;
+    bottom: 34mm;
+    left: 26mm;
+    right: 26mm;
+    display: flex;
+    justify-content: space-between;
+    font-size: 9.5pt;
+    color: #bcd2ea;
+  }
+  .cover .meta .label { color: #6f9dcb; text-transform: uppercase; letter-spacing: 2px; font-size: 7.5pt; display: block; margin-bottom: 2mm; }
+  .cover .meta strong { color: #fff; font-weight: 600; font-size: 11pt; }
+
+  /* ---------- Sections ---------- */
+  h2 {
+    font-size: 16pt;
+    color: #123a63;
+    margin: 9mm 0 3mm 0;
+    padding-bottom: 2mm;
+    border-bottom: 2px solid #e2e8f0;
+    font-weight: 700;
+  }
+  h2 .num { color: #4f9bd9; font-weight: 800; margin-right: 3mm; }
+  h3 {
+    font-size: 11.5pt;
+    color: #1a5691;
+    margin: 5mm 0 1.5mm 0;
+    font-weight: 700;
+  }
+  p { margin: 0 0 2.5mm 0; }
+  .lead { font-size: 11pt; color: #3a4656; }
+  ul { margin: 1mm 0 3mm 0; padding-left: 5mm; }
+  li { margin-bottom: 1mm; }
+  .avoid-break { page-break-inside: avoid; }
+
+  /* two-column feature grids */
+  .grid2 { margin: 2mm 0 3mm; font-size: 0; }
+  .card {
+    display: inline-block;
+    width: 49%;
+    vertical-align: top;
+    background: #f6f9fc;
+    border: 1px solid #e2e8f0;
+    border-left: 3px solid #4f9bd9;
+    border-radius: 3px;
+    padding: 3.5mm 4mm;
+    margin-bottom: 3mm;
+    page-break-inside: avoid;
+    font-size: 10.2pt;
+  }
+  .grid2 .card:nth-child(odd) { margin-right: 2%; }
+  .card.full { width: 100%; margin-right: 0; }
+  .card h4 { margin: 0 0 1.5mm 0; font-size: 10.5pt; color: #123a63; }
+  .card ul { margin: 0; padding-left: 4.5mm; font-size: 9.4pt; color: #445; }
+  .card p { font-size: 9.4pt; color: #445; margin: 0; }
+
+  /* pill tags */
+  .tags { margin: 1mm 0 3mm; }
+  .tag {
+    display: inline-block;
+    background: #e8f1fa;
+    color: #1a5691;
+    border: 1px solid #cfe0f2;
+    border-radius: 20px;
+    padding: 1mm 3.5mm;
+    font-size: 8.6pt;
+    margin: 0 1.5mm 1.5mm 0;
+  }
+
+  /* tables */
+  table { width: 100%; border-collapse: collapse; margin: 2mm 0 4mm; font-size: 9.4pt; page-break-inside: auto; }
+  th {
+    background: #123a63; color: #fff; text-align: left;
+    padding: 2.2mm 3mm; font-weight: 600; font-size: 9pt;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  td { padding: 2mm 3mm; border-bottom: 1px solid #e6ebf1; }
+  tr:nth-child(even) td { background: #f6f9fc; }
+  td.num, th.num { text-align: right; }
+  td.ctr, th.ctr { text-align: center; }
+  tr.total td { background: #e8f1fa; font-weight: 700; color: #123a63; border-top: 2px solid #4f9bd9; }
+
+  /* architecture flow */
+  .flow { text-align: center; margin: 3mm 0; page-break-inside: avoid; }
+  .flow .node {
+    display: block; width: 70mm; margin: 0 auto;
+    background: #123a63; color: #fff; border-radius: 4px;
+    padding: 2.3mm 6mm; font-size: 9.6pt; font-weight: 600; text-align: center;
+  }
+  .flow .node.alt { background: #eef4fa; color: #123a63; border: 1px solid #cfe0f2; }
+  .flow .arrow { display: block; color: #4f9bd9; font-size: 11pt; line-height: 1; margin: 1.2mm auto; }
+
+  /* timeline */
+  .phase { display: flex; gap: 4mm; margin-bottom: 3mm; page-break-inside: avoid; }
+  .phase .badge {
+    flex: 0 0 auto; width: 20mm; text-align: center;
+    background: #123a63; color: #fff; border-radius: 4px; padding: 2mm 0;
+  }
+  .phase .badge .p { font-size: 7pt; letter-spacing: 1px; text-transform: uppercase; color: #9dc4e8; }
+  .phase .badge .n { font-size: 15pt; font-weight: 800; line-height: 1; }
+  .phase .body { flex: 1; background: #f6f9fc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 2.5mm 4mm; }
+  .phase .body h4 { margin: 0 0 1mm; color: #123a63; font-size: 10.5pt; }
+  .phase .body p { margin: 0; font-size: 9.3pt; color: #445; }
+
+  /* callout */
+  .callout {
+    background: #0b1f3a; color: #dce8f4; border-radius: 5px;
+    padding: 5mm 6mm; margin: 4mm 0; page-break-inside: avoid;
+  }
+  .callout h3 { color: #7fb2e6; margin-top: 0; }
+  .callout p { color: #cfdcea; margin-bottom: 0; }
+
+  .cost-summary { display: flex; gap: 4mm; margin: 3mm 0; }
+  .cost-box { flex: 1; text-align: center; border: 1px solid #e2e8f0; border-radius: 5px; padding: 4mm 2mm; background: #f6f9fc; }
+  .cost-box .lbl { font-size: 8pt; text-transform: uppercase; letter-spacing: 1px; color: #6f8299; }
+  .cost-box .val { font-size: 15pt; font-weight: 800; color: #123a63; margin-top: 1mm; }
+  .cost-box.hi { background: #123a63; }
+  .cost-box.hi .lbl { color: #9dc4e8; }
+  .cost-box.hi .val { color: #fff; }
+
+  .muted { color: #6f8299; font-size: 9pt; }
+  .section { page-break-inside: auto; }
+
+  /* git repo tree */
+  .tree {
+    background: #0b1f3a; color: #cfe0f2; border-radius: 5px;
+    padding: 4mm 5mm; margin: 2mm 0 3mm;
+    font-family: 'DejaVu Sans Mono', 'Courier New', monospace;
+    font-size: 8.6pt; line-height: 1.5; white-space: pre;
+    page-break-inside: avoid;
+  }
+  .tree .dir { color: #7fb2e6; font-weight: 700; }
+  .tree .fut { color: #6f8fb0; font-style: italic; font-weight: 400; }
+
+  /* numbered question list */
+  ol.qlist { margin: 1mm 0 3mm; padding-left: 6mm; columns: 2; column-gap: 8mm; }
+  ol.qlist li { margin-bottom: 1.2mm; break-inside: avoid; }
+
+  .tag.no { background: #fdecec; color: #b3261e; border-color: #f5c6c2; }
+
+  /* camera row for perception diagram */
+  .camrow { text-align: center; margin: 0; }
+  .camrow .node { display: inline-block; width: 44mm; margin: 0 2mm; vertical-align: top; }
+  .flow .node.wide { width: 90mm; }
+
+  /* stage blocks (numbered) */
+  .stage { display: flex; gap: 4mm; margin-bottom: 3mm; page-break-inside: avoid; }
+  .stage .badge {
+    flex: 0 0 auto; width: 22mm; text-align: center;
+    background: #1a5691; color: #fff; border-radius: 4px; padding: 2mm 0;
+  }
+  .stage .badge .p { font-size: 6.6pt; letter-spacing: 1px; text-transform: uppercase; color: #9dc4e8; }
+  .stage .badge .n { font-size: 14pt; font-weight: 800; line-height: 1.1; }
+  .stage .body { flex: 1; background: #f6f9fc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 2.5mm 4mm; }
+  .stage .body h4 { margin: 0 0 1mm; color: #123a63; font-size: 10.5pt; }
+  .stage .body p, .stage .body ul { margin: 0; font-size: 9.3pt; color: #445; }
+  .stage .body ul { padding-left: 4.5mm; }
+
+  /* checklist */
+  .check { list-style: none; padding-left: 0; margin: 2mm 0 3mm; }
+  .check li { position: relative; padding-left: 7mm; margin-bottom: 1.6mm; }
+  .check li::before {
+    content: "\2713"; position: absolute; left: 0; top: 0;
+    color: #1a8f4c; font-weight: 800; font-size: 10.5pt;
+  }
+  .check.two { columns: 2; column-gap: 8mm; }
+  .check.two li { break-inside: avoid; }
+
+  .philosophy {
+    text-align: center; background: linear-gradient(150deg,#0b1f3a,#1a5691);
+    color: #fff; border-radius: 6px; padding: 8mm 6mm; margin: 4mm 0;
+    page-break-inside: avoid;
+  }
+  .philosophy .tag-line { font-size: 20pt; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 3mm; }
+  .philosophy p { color: #cfdcea; max-width: 140mm; margin: 0 auto; font-size: 10pt; }
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<div class="cover">
+  <div class="kicker">Project Proposal &amp; Bill of Materials</div>
+  <h1>AURA</h1>
+  <div class="subtitle">Autonomous Utility Rover Architecture — a modular, AI-powered mobile robotics platform for intelligent indoor navigation and future robotic manipulation.</div>
+  <hr class="rule">
+  <div class="subtitle" style="font-size:11pt;color:#9dc4e8;">Version 1.0 &nbsp;·&nbsp; Future Roadmap to Version 3.0</div>
+  <div class="meta">
+    <div><span class="label">Team</span><strong>3 Members</strong></div>
+    <div><span class="label">Version 1.0</span><strong>July – October</strong></div>
+    <div><span class="label">Version 2.0</span><strong>November onwards</strong></div>
+    <div><span class="label">Est. Total Cost</span><strong>₹3.40–3.60 lakh</strong></div>
+  </div>
+</div>
+
+<!-- ============ 1. OVERVIEW ============ -->
+<div class="section">
+<h2><span class="num">01</span>Project Overview &amp; Vision</h2>
+<p class="lead">AURA (Autonomous Utility Rover Architecture) is a modular AI-powered autonomous mobile robotics platform designed for intelligent indoor navigation and future robotic manipulation.</p>
+<p>Unlike traditional autonomous cars that perform only one task, AURA is designed as a complete robotics platform capable of mapping, localization, obstacle avoidance, person detection, mission execution and future teleoperation. The platform is designed from the ground up to be modular, so that additional systems such as robotic arms, teleoperation, exoskeleton control and AI assistants can be added without redesigning the entire robot.</p>
+
+<h3>Project Objective</h3>
+<p>To develop a fully autonomous six-wheel mobile robotics platform capable of:</p>
+<div class="tags">
+  <span class="tag">Autonomous indoor navigation</span>
+  <span class="tag">SLAM</span>
+  <span class="tag">Multi-sensor perception</span>
+  <span class="tag">Dynamic obstacle avoidance</span>
+  <span class="tag">Autonomous path planning</span>
+  <span class="tag">Person detection</span>
+  <span class="tag">Person following</span>
+  <span class="tag">Mission execution</span>
+  <span class="tag">Manual override</span>
+</div>
+
+<h3>Problem Statement</h3>
+<p>Current educational autonomous vehicle projects generally focus on a single capability such as lane following, parking or obstacle avoidance. The objective of AURA is to build a complete robotics platform capable of understanding unknown indoor environments, creating maps, localizing itself, planning safe paths and autonomously executing missions — while remaining modular for future research in manipulation and human-robot interaction.</p>
+
+<div class="callout">
+  <h3>Final Project Goal</h3>
+  <p>AURA is not intended to be just another autonomous vehicle. It is designed as a long-term modular robotics platform that begins as an intelligent autonomous rover and gradually evolves into a fully capable mobile manipulator with teleoperation, AI-assisted autonomy and learning capabilities. The modular engineering approach allows future upgrades without redesigning the mobility platform, making it suitable for continued development throughout the remainder of the undergraduate program and beyond.</p>
+</div>
+</div>
+
+<!-- ============ 2. DELIVERABLES ============ -->
+<div class="section">
+<h2><span class="num">02</span>Deliverables by Version</h2>
+
+<h3>Version 1.0 — October</h3>
+<div class="grid2">
+  <div class="card">
+    <h4>Autonomous Mobility</h4>
+    <ul><li>Six-wheel autonomous rover</li><li>Manual mode</li><li>Assisted mode</li><li>Fully autonomous mode</li></ul>
+  </div>
+  <div class="card">
+    <h4>Navigation</h4>
+    <ul><li>Indoor SLAM &amp; localization</li><li>Path planning &amp; waypoint navigation</li><li>Mission execution</li><li>Return Home</li></ul>
+  </div>
+  <div class="card">
+    <h4>Artificial Intelligence</h4>
+    <ul><li>YOLO object detection</li><li>Person detection</li><li>Follow registered user</li></ul>
+  </div>
+  <div class="card">
+    <h4>Sensor Head</h4>
+    <ul><li>Intel RealSense D455</li><li>Two Degree-of-Freedom Pan-Tilt Head</li></ul>
+  </div>
+</div>
+
+<h3>Version 2.0 — November onwards</h3>
+<div class="tags">
+  <span class="tag">Two SO-101 Robotic Arms</span>
+  <span class="tag">DIY Exoskeleton Controller</span>
+  <span class="tag">Head Tracking</span>
+  <span class="tag">DJI Teleoperation</span>
+  <span class="tag">Voice Interaction</span>
+  <span class="tag">Local Large Language Model</span>
+  <span class="tag">Learning from Demonstration</span>
+  <span class="tag">Intelligent Manipulation</span>
+</div>
+</div>
+
+<!-- ============ 3. SYSTEM ARCHITECTURE ============ -->
+<div class="section">
+<h2><span class="num">03</span>System Architecture</h2>
+<p>Mission commands flow from the human operator through the Jetson compute layer — which handles all perception, navigation and planning — down to the ESP32 microcontroller and motor controllers that drive the 6WD rover.</p>
+<div class="flow">
+  <div class="node alt">Human Operator</div><div class="arrow">▼</div>
+  <div class="node alt">Mission Commands</div><div class="arrow">▼</div>
+  <div class="node">Jetson Orin Nano</div><div class="arrow">▼</div>
+  <div class="node">Perception</div><div class="arrow">▼</div>
+  <div class="node">Navigation</div><div class="arrow">▼</div>
+  <div class="node">ESP32</div><div class="arrow">▼</div>
+  <div class="node">Motor Controllers</div><div class="arrow">▼</div>
+  <div class="node alt">6WD Rover</div>
+</div>
+</div>
+
+<!-- ============ 4. HARDWARE ============ -->
+<div class="section">
+<h2><span class="num">04</span>Compute, Sensing &amp; Hardware</h2>
+
+<div class="grid2">
+  <div class="card">
+    <h4>Main Computer — NVIDIA Jetson Orin Nano</h4>
+    <p>ROS2 · AI · Navigation · SLAM · Object Detection · Path Planning · Mission Planning · Camera Processing</p>
+  </div>
+  <div class="card">
+    <h4>Microcontroller — ESP32</h4>
+    <p>Motor control · Servo control · Sensor reading · Communication with Jetson · Emergency control</p>
+  </div>
+  <div class="card">
+    <h4>Intel RealSense D455</h4>
+    <p>RGB &amp; depth camera for object and person detection; future arm vision and face recognition. Mounted on a 2-DOF pan-tilt head.</p>
+  </div>
+  <div class="card">
+    <h4>2D LiDAR</h4>
+    <p>Indoor mapping · localization · navigation · obstacle detection.</p>
+  </div>
+  <div class="card">
+    <h4>IMU</h4>
+    <p>Orientation · angular velocity · robot stability.</p>
+  </div>
+  <div class="card">
+    <h4>Wheel Encoders</h4>
+    <p>Odometry · speed measurement · distance measurement.</p>
+  </div>
+</div>
+
+<h3>Drive System</h3>
+<p>Six-wheel drive rover powered by six planetary BLDC motors with encoders and dedicated BLDC motor controllers, running on 150 mm rubber wheels.</p>
+
+<h3>Power System</h3>
+<p>36 V battery pack with a Battery Management System, DC-DC buck converters, a power distribution board and an emergency stop switch.</p>
+
+<h3>Chassis — Custom Modular Aluminium</h3>
+<p>Features a modular electronics bay, battery compartment, sensor head mount and internal cable routing, with future arm mounts, a Pixhawk mount and expansion ports built in.</p>
+</div>
+
+<!-- ============ 5. SOFTWARE ============ -->
+<div class="section">
+<h2><span class="num">05</span>Software Stack &amp; Sensor Responsibilities</h2>
+<div class="grid2">
+  <div class="card"><h4>Operating System</h4><p>Ubuntu 22.04</p></div>
+  <div class="card"><h4>Middleware</h4><p>ROS2</p></div>
+  <div class="card"><h4>Navigation</h4><p>Nav2 · RTAB-Map</p></div>
+  <div class="card"><h4>Artificial Intelligence</h4><p>YOLO · OpenCV</p></div>
+  <div class="card"><h4>Programming Languages</h4><p>Python · C++</p></div>
+  <div class="card"><h4>Sensor Fusion Inputs</h4><p>LiDAR · RealSense · IMU · Wheel Encoders</p></div>
+</div>
+
+<table>
+  <thead><tr><th>Sensor</th><th>Primary Responsibilities</th></tr></thead>
+  <tbody>
+    <tr><td>LiDAR</td><td>Mapping, localization, obstacle detection</td></tr>
+    <tr><td>RealSense D455</td><td>RGB vision, depth vision, object detection</td></tr>
+    <tr><td>IMU</td><td>Robot orientation</td></tr>
+    <tr><td>Wheel Encoders</td><td>Odometry</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ============ 6. MODES & NAVIGATION ============ -->
+<div class="section">
+<h2><span class="num">06</span>Robot Modes &amp; Navigation Workflow</h2>
+<div class="grid2">
+  <div class="card"><h4>Manual Mode</h4><p>Robot controlled using keyboard or controller.</p></div>
+  <div class="card"><h4>Assisted Mode</h4><p>Operator drives the robot; the robot automatically avoids collisions.</p></div>
+  <div class="card"><h4>Autonomous Mode</h4><p>Robot performs complete missions independently.</p></div>
+</div>
+
+<h3>First Time in a New Environment</h3>
+<p>The robot detects an unknown environment and begins autonomous exploration. LiDAR builds a map while the RealSense supplies depth information, and the IMU and encoders refine localization. The generated map is saved, and the user labels important locations — for example: <em>Classroom 401, Classroom 402, Robotics Lab, Charging Station, Main Entrance</em>. These names are permanently stored.</p>
+
+<h3>Future Navigation</h3>
+<div class="flow">
+  <div class="node alt">User Command: "Go to Robotics Lab"</div><div class="arrow">▼</div>
+  <div class="node">Load saved map</div><div class="arrow">▼</div>
+  <div class="node">Plan shortest path</div><div class="arrow">▼</div>
+  <div class="node">Avoid obstacles</div><div class="arrow">▼</div>
+  <div class="node alt">Reach destination</div>
+</div>
+
+<h3>Mission Examples</h3>
+<div class="tags">
+  <span class="tag">1 · Patrol Laboratory</span>
+  <span class="tag">2 · Follow User</span>
+  <span class="tag">3 · Navigate to Charging Station</span>
+  <span class="tag">4 · Inspect Room</span>
+  <span class="tag">5 · Return Home</span>
+</div>
+</div>
+
+<!-- ============ 7. TIMELINE ============ -->
+<div class="section">
+<h2><span class="num">07</span>Development Timeline</h2>
+<div class="phase">
+  <div class="badge"><div class="p">Phase</div><div class="n">1</div></div>
+  <div class="body"><h4>Project Foundation</h4><p>Requirements · Architecture · Git repository · BOM · CAD planning · Wiring diagram</p></div>
+</div>
+<div class="phase">
+  <div class="badge"><div class="p">Phase</div><div class="n">2</div></div>
+  <div class="body"><h4>Mechanical Design</h4><p>Chassis · Suspension · Electronics mounts · Head · Battery housing</p></div>
+</div>
+<div class="phase">
+  <div class="badge"><div class="p">Phase</div><div class="n">3</div></div>
+  <div class="body"><h4>Electronics</h4><p>Motors · Power · ESP32 · Jetson · Sensors</p></div>
+</div>
+<div class="phase">
+  <div class="badge"><div class="p">Phase</div><div class="n">4</div></div>
+  <div class="body"><h4>Software</h4><p>ROS2 · SLAM · Navigation · AI · Sensor fusion</p></div>
+</div>
+<div class="phase">
+  <div class="badge"><div class="p">Phase</div><div class="n">5</div></div>
+  <div class="body"><h4>Testing</h4><p>Indoor mapping · Navigation · Obstacle avoidance · Person following · Mission execution</p></div>
+</div>
+</div>
+
+<!-- ============ 8. BOM ============ -->
+<div class="section">
+<h2><span class="num">08</span>Bill of Materials</h2>
+
+<h3>Version 1.0 Components</h3>
+<table>
+  <thead><tr><th>Component</th><th class="ctr">Qty</th><th class="num">Est. Cost (₹)</th></tr></thead>
+  <tbody>
+    <tr><td>Custom Aluminium Chassis</td><td class="ctr">1</td><td class="num">12,000</td></tr>
+    <tr><td>Planetary BLDC Motors with Encoders</td><td class="ctr">6</td><td class="num">36,000</td></tr>
+    <tr><td>BLDC Motor Controllers</td><td class="ctr">6</td><td class="num">18,000</td></tr>
+    <tr><td>150 mm Rubber Wheels</td><td class="ctr">6</td><td class="num">6,000</td></tr>
+    <tr><td>Intel RealSense D455</td><td class="ctr">1</td><td class="num">55,000</td></tr>
+    <tr><td>2D LiDAR</td><td class="ctr">1</td><td class="num">25,000</td></tr>
+    <tr><td>9-Axis IMU</td><td class="ctr">1</td><td class="num">1,500</td></tr>
+    <tr><td>ESP32</td><td class="ctr">1</td><td class="num">800</td></tr>
+    <tr><td>36V Battery Pack</td><td class="ctr">1</td><td class="num">18,000</td></tr>
+    <tr><td>Battery Charger</td><td class="ctr">1</td><td class="num">5,000</td></tr>
+    <tr><td>DC-DC Converters</td><td class="ctr">2</td><td class="num">2,000</td></tr>
+    <tr><td>Power Distribution Board</td><td class="ctr">1</td><td class="num">2,500</td></tr>
+    <tr><td>Emergency Stop</td><td class="ctr">1</td><td class="num">500</td></tr>
+    <tr><td>Wiring and Connectors</td><td class="ctr">—</td><td class="num">4,000</td></tr>
+    <tr><td>Bearings, Fasteners and Hardware</td><td class="ctr">—</td><td class="num">5,000</td></tr>
+    <tr><td>Cooling Fans</td><td class="ctr">—</td><td class="num">1,500</td></tr>
+    <tr class="total"><td>Version 1.0 Total (excl. Jetson Orin Nano)</td><td class="ctr">—</td><td class="num">₹1.90–2.00 lakh</td></tr>
+  </tbody>
+</table>
+
+<h3>Version 2.0 Additional Components</h3>
+<table>
+  <thead><tr><th>Component</th><th class="ctr">Qty</th><th class="num">Est. Cost (₹)</th></tr></thead>
+  <tbody>
+    <tr><td>Waveshare SO-101 Robotic Arm</td><td class="ctr">2</td><td class="num">56,000</td></tr>
+    <tr><td>Pan-Tilt Head Assembly</td><td class="ctr">1</td><td class="num">5,000</td></tr>
+    <tr><td>High Torque Head Servos</td><td class="ctr">2</td><td class="num">4,000</td></tr>
+    <tr><td>Microphone Array</td><td class="ctr">1</td><td class="num">3,000</td></tr>
+    <tr><td>Speaker</td><td class="ctr">1</td><td class="num">2,000</td></tr>
+    <tr><td>DIY Exoskeleton Electronics</td><td class="ctr">1</td><td class="num">20,000</td></tr>
+    <tr><td>IMUs for Exoskeleton</td><td class="ctr">10–16</td><td class="num">15,000</td></tr>
+    <tr><td>Rotary Encoders</td><td class="ctr">12–16</td><td class="num">12,000</td></tr>
+    <tr><td>Exoskeleton Microcontrollers</td><td class="ctr">2</td><td class="num">2,000</td></tr>
+    <tr><td>Additional Battery Capacity</td><td class="ctr">1</td><td class="num">10,000</td></tr>
+    <tr><td>Additional Power Electronics</td><td class="ctr">—</td><td class="num">5,000</td></tr>
+    <tr><td>Structural Hardware</td><td class="ctr">—</td><td class="num">10,000</td></tr>
+    <tr><td>Miscellaneous and Contingency</td><td class="ctr">—</td><td class="num">15,000</td></tr>
+    <tr class="total"><td>Version 2.0 Additional Total</td><td class="ctr">—</td><td class="num">₹1.50–1.60 lakh</td></tr>
+  </tbody>
+</table>
+
+<h3>Total Project Cost</h3>
+<div class="cost-summary">
+  <div class="cost-box"><div class="lbl">Version 1.0</div><div class="val">₹1.90–2.00 L</div></div>
+  <div class="cost-box"><div class="lbl">Version 2.0 Upgrade</div><div class="val">₹1.50–1.60 L</div></div>
+  <div class="cost-box hi"><div class="lbl">Complete Robot</div><div class="val">₹3.40–3.60 L</div></div>
+</div>
+
+<p class="muted"><strong>Items already available (not included in cost):</strong> NVIDIA Jetson Orin Nano · DJI Goggles 3 · DJI O4 Pro Air Unit · 3D Printer · Printing Materials.</p>
+</div>
+
+<!-- ============ 9. DEV WORKFLOW ============ -->
+<div class="section">
+<h2><span class="num">09</span>Development Workflow (Simulation-to-Real)</h2>
+<p>AURA will follow an industry-standard Simulation-to-Real (Sim-to-Real) development workflow. Instead of developing directly on hardware, every major subsystem will first be designed, tested and validated in simulation before deployment to the physical robot. This approach minimizes hardware damage, reduces debugging time and enables parallel software and mechanical development.</p>
+<div class="flow">
+  <div class="node alt">Requirements &amp; System Architecture</div><div class="arrow">▼</div>
+  <div class="node">CAD Design (Fusion 360)</div><div class="arrow">▼</div>
+  <div class="node">Robot Model (URDF/Xacro)</div><div class="arrow">▼</div>
+  <div class="node">Simulation (Gazebo Harmonic)</div><div class="arrow">▼</div>
+  <div class="node">SLAM, Navigation &amp; AI Testing</div><div class="arrow">▼</div>
+  <div class="node">Hardware Integration</div><div class="arrow">▼</div>
+  <div class="node">Calibration &amp; Sensor Tuning</div><div class="arrow">▼</div>
+  <div class="node">Real-World Deployment</div><div class="arrow">▼</div>
+  <div class="node alt">Testing &amp; Performance Validation</div>
+</div>
+
+<h3>Phase 0 — Digital Twin</h3>
+<p>Before assembling the physical robot, a complete virtual representation (Digital Twin) of AURA will be created. This allows software development to begin immediately, even before all hardware components have arrived. This phase includes finalizing the system architecture; designing the chassis and mechanical components in Fusion 360; creating the robot description using URDF/Xacro; simulating sensors including LiDAR, Intel RealSense, IMU and wheel encoders; testing SLAM, localization, navigation and obstacle avoidance in simulation; and verifying software before hardware assembly.</p>
+</div>
+
+<!-- ============ 10. SOFTWARE DEV WORKFLOW ============ -->
+<div class="section">
+<h2><span class="num">10</span>Software Development Workflow</h2>
+<p>The project will follow a modular development approach where each subsystem is developed independently before full integration.</p>
+<div class="stage">
+  <div class="badge"><div class="p">Stage</div><div class="n">1</div></div>
+  <div class="body"><h4>System Design</h4><p>Finalize project requirements · define robot architecture · select hardware components · create electrical wiring diagrams · generate the Bill of Materials · initialize the Git repository and project structure.</p></div>
+</div>
+<div class="stage">
+  <div class="badge"><div class="p">Stage</div><div class="n">2</div></div>
+  <div class="body"><h4>Mechanical Design</h4><p>Design the complete chassis, battery compartment, electronics enclosure, sensor mounts and pan-tilt camera head in Fusion 360; reserve mounting points for future robotic arms and expansion modules.</p></div>
+</div>
+<div class="stage">
+  <div class="badge"><div class="p">Stage</div><div class="n">3</div></div>
+  <div class="body"><h4>Simulation</h4><p>Import the robot into Gazebo Harmonic and test robot movement, differential drive control, SLAM, localization, path planning, obstacle avoidance, mission execution and person following. Simulation should validate all core software before deployment to physical hardware.</p></div>
+</div>
+<div class="stage">
+  <div class="badge"><div class="p">Stage</div><div class="n">4</div></div>
+  <div class="body"><h4>Electronics Integration</h4><p>Assemble motors, motor controllers, ESP32, Jetson Orin Nano, LiDAR, RealSense, IMU, wheel encoders, and battery and power distribution. Verify all electrical connections and safety systems.</p></div>
+</div>
+<div class="stage">
+  <div class="badge"><div class="p">Stage</div><div class="n">5</div></div>
+  <div class="body"><h4>Software Integration</h4><p>Deploy the complete ROS 2 stack and integrate Nav2, RTAB-Map, YOLO, OpenCV, sensor fusion, motor control and the Mission Manager.</p></div>
+</div>
+<div class="stage">
+  <div class="badge"><div class="p">Stage</div><div class="n">6</div></div>
+  <div class="body"><h4>Real-World Testing</h4><p>Conduct progressive testing: motor testing, sensor validation, indoor mapping, localization, autonomous navigation, dynamic obstacle avoidance, person detection, person following and return-to-home. Each subsystem is validated independently before full autonomous operation.</p></div>
+</div>
+</div>
+
+<!-- ============ 11. AI TOOLCHAIN ============ -->
+<div class="section">
+<h2><span class="num">11</span>AI &amp; Development Toolchain</h2>
+<p>The project will leverage modern AI-assisted software development while relying on established robotics frameworks instead of training core algorithms from scratch.</p>
+<div class="grid2">
+  <div class="card">
+    <h4>ChatGPT</h4>
+    <ul><li>Robotics architecture</li><li>System design</li><li>Electronics planning</li><li>ROS 2 integration</li><li>Navigation logic</li><li>Debugging &amp; documentation</li></ul>
+  </div>
+  <div class="card">
+    <h4>Claude</h4>
+    <ul><li>Large-scale Python development</li><li>ROS 2 package implementation</li><li>C++ development</li><li>Code refactoring</li><li>Documentation</li><li>Repository organization</li></ul>
+  </div>
+  <div class="card">
+    <h4>GitHub Copilot</h4>
+    <ul><li>Real-time code completion</li><li>Boilerplate generation</li><li>Function implementation</li><li>Unit testing assistance</li></ul>
+  </div>
+  <div class="card">
+    <h4>Robotics Software Stack</h4>
+    <ul><li>ROS 2 · Gazebo Harmonic</li><li>Nav2 · RTAB-Map</li><li>OpenCV · YOLO</li><li>Python · C++</li><li>Git &amp; GitHub</li></ul>
+  </div>
+</div>
+<h3>Future Software Stack</h3>
+<p>As the project evolves, additional technologies may be integrated. These components are planned for later stages and are <strong>not required for Version 1.0</strong>.</p>
+<div class="tags">
+  <span class="tag">NVIDIA Isaac ROS</span>
+  <span class="tag">NVIDIA Isaac Sim</span>
+  <span class="tag">TensorRT optimization</span>
+  <span class="tag">MoveIt 2</span>
+  <span class="tag">Hugging Face LeRobot</span>
+  <span class="tag">Offline Voice AI</span>
+  <span class="tag">Local Large Language Models</span>
+</div>
+</div>
+
+<!-- ============ 12. ML STRATEGY ============ -->
+<div class="section">
+<h2><span class="num">12</span>Machine Learning Strategy</h2>
+<p>The project will prioritize proven, pre-trained models and established robotics software to accelerate development. The following components will be used without training from scratch:</p>
+<div class="grid2">
+  <div class="card">
+    <h4>Used As-Is (Version 1.0)</h4>
+    <ul><li>Nav2 for autonomous navigation</li><li>RTAB-Map for SLAM</li><li>Pre-trained YOLO models for object detection</li><li>OpenCV for computer vision</li></ul>
+  </div>
+  <div class="card">
+    <h4>Future Work</h4>
+    <ul><li>Custom object detection models</li><li>Learning from Demonstration (LeRobot)</li><li>Teleoperation-assisted data collection</li><li>Imitation learning</li><li>Autonomous manipulation</li></ul>
+  </div>
+</div>
+<p class="muted">This approach reduces development time while ensuring a reliable and scalable robotics platform.</p>
+</div>
+
+<!-- ============ 13. TEAM ROLES ============ -->
+<div class="section">
+<h2><span class="num">13</span>Team Roles &amp; Responsibilities</h2>
+<div class="grid2">
+  <div class="card">
+    <h4>Member 1 — Mechanical &amp; CAD</h4>
+    <ul><li>Chassis, sensor mounts, battery compartment &amp; electronics enclosure in Fusion 360</li><li>Pan-tilt camera mechanism</li><li>Future robotic-arm mounting points</li><li>Manufacturing drawings &amp; assembly</li></ul>
+    <p style="margin-top:2mm;"><strong>Deliverables:</strong> Complete CAD assembly · Manufacturing drawings · Mechanical BOM</p>
+  </div>
+  <div class="card">
+    <h4>Member 2 — Electronics &amp; Embedded</h4>
+    <ul><li>Electrical architecture &amp; complete wiring</li><li>Motor/controller selection · ESP32 integration</li><li>Power distribution &amp; battery management</li><li>Sensor wiring · emergency stop</li></ul>
+    <p style="margin-top:2mm;"><strong>Deliverables:</strong> Wiring diagram · Electrical BOM · Power system · Embedded firmware</p>
+  </div>
+  <div class="card full">
+    <h4>Member 3 — AI, Navigation &amp; Software</h4>
+    <ul style="columns:2;"><li>Configure Ubuntu and ROS 2</li><li>Develop SLAM · configure Nav2</li><li>Integrate LiDAR &amp; Intel RealSense</li><li>Integrate YOLO</li><li>Develop Mission Manager</li><li>Test autonomous navigation</li></ul>
+    <p style="margin-top:2mm;"><strong>Deliverables:</strong> ROS 2 packages · Navigation stack · AI stack · Git repository · Documentation</p>
+  </div>
+</div>
+</div>
+
+<!-- ============ 14. V1 SCOPE ============ -->
+<div class="section">
+<h2><span class="num">14</span>Version 1 Scope (October)</h2>
+<p>The following features must be completed before October.</p>
+<div class="grid2">
+  <div class="card">
+    <h4>Mechanical</h4>
+    <ul><li>Complete chassis</li><li>6WD drive system</li><li>Pan-tilt camera head</li><li>Battery mounting</li><li>Electronics enclosure</li></ul>
+  </div>
+  <div class="card">
+    <h4>Electronics</h4>
+    <ul><li>Jetson Orin Nano · ESP32</li><li>LiDAR · Intel RealSense · IMU</li><li>Wheel encoders</li><li>Power distribution</li><li>Emergency stop</li></ul>
+  </div>
+  <div class="card full">
+    <h4>Software</h4>
+    <ul style="columns:2;"><li>ROS 2</li><li>SLAM</li><li>Nav2</li><li>Localization</li><li>Path planning</li><li>Obstacle avoidance</li><li>Mission Manager</li><li>Person detection</li><li>Person following</li><li>Return Home</li></ul>
+  </div>
+</div>
+<div class="callout">
+  <h3>Demonstration</h3>
+  <p>The robot should be capable of creating a map of an unknown environment, saving the generated map, loading a previously created map, navigating autonomously, avoiding static and moving obstacles, detecting people, following a registered user and returning to the charging position.</p>
+</div>
+</div>
+
+<!-- ============ 15. V2 SCOPE ============ -->
+<div class="section">
+<h2><span class="num">15</span>Version 2 Scope (Future)</h2>
+<p>These features are intentionally postponed until after Version 1 is stable. <strong>Version 1 will not be delayed to implement these features.</strong></p>
+<div class="tags">
+  <span class="tag">Dual SO-101 robotic arms</span>
+  <span class="tag">DIY exoskeleton</span>
+  <span class="tag">DJI teleoperation</span>
+  <span class="tag">Head tracking</span>
+  <span class="tag">Voice interaction</span>
+  <span class="tag">Offline AI assistant</span>
+  <span class="tag">Learning from Demonstration (LeRobot)</span>
+  <span class="tag">Autonomous manipulation</span>
+</div>
+</div>
+
+<!-- ============ 16. MILESTONES ============ -->
+<div class="section">
+<h2><span class="num">16</span>Project Milestones</h2>
+<div class="stage">
+  <div class="badge"><div class="p">Milestone</div><div class="n">1</div></div>
+  <div class="body"><h4>Project Planning Completed</h4><p>Requirements finalized · architecture finalized · BOM finalized.</p></div>
+</div>
+<div class="stage">
+  <div class="badge"><div class="p">Milestone</div><div class="n">2</div></div>
+  <div class="body"><h4>Mechanical Design Completed</h4><p>CAD completed · chassis finalized · wiring planned.</p></div>
+</div>
+<div class="stage">
+  <div class="badge"><div class="p">Milestone</div><div class="n">3</div></div>
+  <div class="body"><h4>Simulation Completed</h4><p>Robot model created · SLAM tested · navigation tested · mission execution tested.</p></div>
+</div>
+<div class="stage">
+  <div class="badge"><div class="p">Milestone</div><div class="n">4</div></div>
+  <div class="body"><h4>Hardware Integration Completed</h4><p>Electronics assembled · sensors operational · motors operational.</p></div>
+</div>
+<div class="stage">
+  <div class="badge"><div class="p">Milestone</div><div class="n">5</div></div>
+  <div class="body"><h4>Autonomous Navigation Completed</h4><p>Mapping · localization · obstacle avoidance · person following.</p></div>
+</div>
+<div class="stage">
+  <div class="badge"><div class="p">Milestone</div><div class="n">6</div></div>
+  <div class="body"><h4>Final Demonstration</h4><p>Robot successfully completes all Version 1 objectives.</p></div>
+</div>
+</div>
+
+<!-- ============ 17. REPO & STANDARDS ============ -->
+<div class="section">
+<h2><span class="num">17</span>Repository Structure &amp; Coding Standards</h2>
+<div class="tree">AURA/
+├── README.md
+├── LICENSE
+├── .gitignore
+│
+├── <span class="dir">docs/</span>
+│   ├── <span class="dir">Proposal/</span>      ├── <span class="dir">Meeting Notes/</span>   └── <span class="dir">Reports/</span>
+│   ├── <span class="dir">Research/</span>      └── <span class="dir">Wiring Diagrams/</span>
+│
+├── <span class="dir">cad/</span>
+│   ├── <span class="dir">Chassis/</span>  ├── <span class="dir">Head/</span>  ├── <span class="dir">Mounts/</span>  ├── <span class="dir">Arms/</span> <span class="fut">(Future)</span>  └── <span class="dir">Drawings/</span>
+│
+├── <span class="dir">electronics/</span>
+│   ├── <span class="dir">Schematics/</span>  ├── <span class="dir">PCB/</span>  ├── <span class="dir">Power/</span>  └── <span class="dir">BOM/</span>
+│
+├── <span class="dir">firmware/</span>
+│   └── <span class="dir">esp32/</span>
+│
+├── <span class="dir">software/</span>
+│   ├── <span class="dir">ros2_ws/</span>   ├── <span class="dir">navigation/</span>  ├── <span class="dir">slam/</span>  ├── <span class="dir">perception/</span>
+│   ├── <span class="dir">mission_manager/</span>   ├── <span class="dir">teleop/</span> <span class="fut">(Future)</span>   └── <span class="dir">utils/</span>
+│
+├── <span class="dir">simulation/</span>
+│   ├── <span class="dir">urdf/</span>  ├── <span class="dir">meshes/</span>  ├── <span class="dir">worlds/</span>  ├── <span class="dir">gazebo/</span>  └── <span class="dir">isaac_sim/</span> <span class="fut">(Future)</span>
+│
+├── <span class="dir">ai/</span>
+│   ├── <span class="dir">yolo/</span>  ├── <span class="dir">datasets/</span>  ├── <span class="dir">models/</span>  └── <span class="dir">training/</span> <span class="fut">(Future)</span>
+│
+├── <span class="dir">testing/</span>
+│
+├── <span class="dir">media/</span>
+│   ├── <span class="dir">images/</span>  ├── <span class="dir">videos/</span>  └── <span class="dir">renders/</span>
+│
+└── <span class="dir">resources/</span></div>
+<h3>Coding Standards</h3>
+<p>Use Git for version control and commit frequently with meaningful messages. Every new feature should have its own branch, and broken code must never be committed to the main branch. Document all major changes, and keep all wiring diagrams, CAD files and documentation inside the repository.</p>
+</div>
+
+<!-- ============ 18. SUCCESS CRITERIA ============ -->
+<div class="section">
+<h2><span class="num">18</span>Success Criteria</h2>
+<p>Version 1 will be considered complete when the robot can:</p>
+<ul class="check two">
+  <li>Power on reliably.</li>
+  <li>Build a map of an unknown indoor environment.</li>
+  <li>Save and reload maps.</li>
+  <li>Navigate autonomously between user-defined locations.</li>
+  <li>Detect and avoid static obstacles.</li>
+  <li>Detect and avoid moving obstacles.</li>
+  <li>Detect and follow a registered user.</li>
+  <li>Return to its home location.</li>
+  <li>Switch between Manual, Assisted and Autonomous modes.</li>
+</ul>
+</div>
+
+<!-- ============ 19. PHASE 1 FOUNDATION ============ -->
+<div class="section">
+<h2><span class="num">19</span>Phase 1 — Foundation</h2>
+<p class="lead">Goal: before buying parts or writing code, create a professional project structure and lock the core decisions.</p>
+
+<h3>Step 1 — Git Repository</h3>
+<p>Initialize the <strong>AURA</strong> repository using the professional folder structure defined in Section 17 (Repository Structure), separating documentation, CAD, electronics, firmware, software, simulation, AI, testing, media and resources — with reserved <em>(Future)</em> folders for arms, teleoperation, Isaac Sim and training.</p>
+
+<h3>Step 2 — Software Stack (Frozen)</h3>
+<div class="grid2">
+  <div class="card"><h4>Operating System</h4><p>Ubuntu 22.04</p></div>
+  <div class="card"><h4>Robotics</h4><p>ROS 2 Humble</p></div>
+  <div class="card"><h4>Navigation</h4><p>Nav2 · RTAB-Map</p></div>
+  <div class="card"><h4>Vision</h4><p>OpenCV · Ultralytics YOLO</p></div>
+  <div class="card"><h4>Simulation</h4><p>Gazebo Harmonic</p></div>
+  <div class="card"><h4>CAD</h4><p>Fusion 360</p></div>
+</div>
+
+<h3>Step 3 — Version 1 Features (Frozen)</h3>
+<p>These are the only features built before October; everything else is postponed.</p>
+<div class="grid2">
+  <div class="card"><h4>Mobility</h4><ul><li>6WD Rover</li><li>Manual · Assisted · Autonomous modes</li></ul></div>
+  <div class="card"><h4>Navigation</h4><ul><li>SLAM · Mapping · Localization</li><li>Path Planning · Return Home</li></ul></div>
+  <div class="card"><h4>Vision</h4><ul><li>Person Detection</li><li>Object Detection</li><li>Person Following</li></ul></div>
+  <div class="card"><h4>Hardware</h4><ul><li>Pan-Tilt Head · RealSense</li><li>LiDAR · IMU · Encoders</li></ul></div>
+</div>
+
+<h3>Step 4 — Version 2 (Frozen / Postponed)</h3>
+<p>Do not work on these until Version 1 is complete.</p>
+<div class="tags">
+  <span class="tag">SO-101 Arms</span>
+  <span class="tag">Exoskeleton</span>
+  <span class="tag">DJI Teleoperation</span>
+  <span class="tag">Voice Assistant</span>
+  <span class="tag">Local LLM</span>
+  <span class="tag">Learning from Demonstration</span>
+</div>
+
+<h3>Step 5 — Mechanical Design: Questions Before CAD</h3>
+<p>Answer these before opening Fusion 360 — only then start CAD:</p>
+<ol class="qlist">
+  <li>Final dimensions</li>
+  <li>Wheel size</li>
+  <li>Motor selection</li>
+  <li>Battery location</li>
+  <li>Sensor locations</li>
+  <li>Jetson location</li>
+  <li>ESP32 location</li>
+  <li>LiDAR location</li>
+  <li>Future arm mounting</li>
+  <li>Cable routing</li>
+</ol>
+
+<h3>Step 6 — Phase 1 Deliverables</h3>
+<ul class="check two">
+  <li>Final system architecture</li>
+  <li>Locked BOM</li>
+  <li>Folder structure</li>
+  <li>Git repository</li>
+  <li>Initial CAD layout</li>
+  <li>Wiring diagram</li>
+  <li>Power budget</li>
+  <li>Software architecture</li>
+  <li>Development roadmap</li>
+</ul>
+</div>
+
+<!-- ============ 20. WAYS OF WORKING ============ -->
+<div class="section">
+<h2><span class="num">20</span>Ways of Working &amp; Open-Source Platform</h2>
+<p>Rather than jumping around, AURA will be built exactly like a robotics company — progressing through clear engineering milestones and treating the project as an open-source robotics platform, not just a college project.</p>
+
+<h3>Engineering Milestones</h3>
+<div class="grid2">
+  <div class="card">
+    <ul style="margin:0;">
+      <li>1 · System Architecture <em>(current)</em></li>
+      <li>2 · Mechanical Design</li>
+      <li>3 · Electronics</li>
+      <li>4 · Simulation</li>
+      <li>5 · Embedded Software</li>
+    </ul>
+  </div>
+  <div class="card">
+    <ul style="margin:0;">
+      <li>6 · ROS 2</li>
+      <li>7 · AI &amp; Navigation</li>
+      <li>8 · Hardware Integration</li>
+      <li>9 · Testing &amp; Validation</li>
+      <li>10 · Version 1 Complete</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Maintained as an Open-Source Platform</h3>
+<div class="tags">
+  <span class="tag">Professional Git repository</span>
+  <span class="tag">Versioned BOM</span>
+  <span class="tag">CAD revisions</span>
+  <span class="tag">Engineering change log</span>
+  <span class="tag">Wiring documentation</span>
+  <span class="tag">Software documentation</span>
+  <span class="tag">Assembly guide</span>
+  <span class="tag">Calibration guide</span>
+  <span class="tag">User manual</span>
+</div>
+</div>
+
+<!-- ============ 21. PERCEPTION ARCHITECTURE ============ -->
+<div class="section">
+<h2><span class="num">21</span>Multi-Camera Perception Architecture</h2>
+<p>For fluid manipulation, cameras must run <strong>simultaneously</strong> — never one replacing another. Switching cameras, even for a second, would make the manipulation experience feel terrible. The architecture is therefore designed so all cameras stream at once and the system simply changes which camera is <em>prioritized</em> for a given task.</p>
+
+<div class="flow">
+  <div class="node">Jetson Orin Nano</div><div class="arrow">▼</div>
+  <div class="camrow">
+    <span class="node alt">RealSense Camera</span>
+    <span class="node alt">Left Wrist Camera</span>
+    <span class="node alt">Right Wrist Camera</span>
+  </div>
+  <div class="arrow">▼</div>
+  <div class="node wide">Perception &amp; Fusion Layer</div><div class="arrow">▼</div>
+  <div class="node wide alt">Mission / Manipulation</div>
+</div>
+
+<h3>What Happens During a Pick</h3>
+<ol style="padding-left:5mm;">
+  <li>RealSense detects the bottle from across the room.</li>
+  <li>Robot navigates to the table.</li>
+  <li>As the arm approaches, the wrist camera is already streaming.</li>
+  <li>The manipulation software starts using the wrist camera for fine alignment.</li>
+  <li>The RealSense doesn't stop — it continues monitoring the overall scene for people, obstacles and changes.</li>
+</ol>
+<p>There is no "camera switch." It is a change in which camera is given priority, with every input available at the same time:</p>
+<table>
+  <thead><tr><th>Source</th><th>Concurrent Signal</th></tr></thead>
+  <tbody>
+    <tr><td>RealSense</td><td>"The bottle is on the table."</td></tr>
+    <tr><td>Wrist camera</td><td>"The gripper is 15&nbsp;mm too far left."</td></tr>
+    <tr><td>IMU + encoders</td><td>"The robot is stable."</td></tr>
+    <tr><td>Joint encoders</td><td>"The arm is at the correct pose."</td></tr>
+  </tbody>
+</table>
+
+<h3>Can the Jetson Orin Nano Handle This?</h3>
+<p>Yes — provided the workload is managed sensibly. Heavy AI inference does not need to run on every camera at full resolution all the time:</p>
+<ul>
+  <li><strong>RealSense</strong> — navigation and global perception (always on).</li>
+  <li><strong>Left wrist camera</strong> — processed only when the left arm is manipulating.</li>
+  <li><strong>Right wrist camera</strong> — processed only when the right arm is manipulating.</li>
+</ul>
+
+<h3>Recommendation — A Perception Manager</h3>
+<p>Rather than cameras feeding directly into robot logic, route them through a dedicated Perception Manager:</p>
+<div class="flow">
+  <div class="node alt">Cameras</div><div class="arrow">▼</div>
+  <div class="node">Perception Manager</div><div class="arrow">▼</div>
+  <div class="node">Mission Manager</div><div class="arrow">▼</div>
+  <div class="node alt">Navigation / Arms</div>
+</div>
+<p>The Perception Manager decides which camera(s) to use for navigation, which to use for grasping, and when to fuse information from multiple cameras.</p>
+<div class="callout">
+  <h3>The "One Organism" Behavior</h3>
+  <p>The robot never "switches eyes." It uses whichever eyes are most useful for the current task while keeping the others available in the background — behaving as a single coordinated organism rather than a set of competing sensors.</p>
+</div>
+</div>
+
+<!-- ============ 22. V1 FREEZE & WEEKLY PLAN ============ -->
+<div class="section">
+<h2><span class="num">22</span>Version 1 Freeze &amp; Weekly Execution Plan</h2>
+<div class="callout">
+  <h3>The Only Question That Matters (Now → October)</h3>
+  <p>Everything is judged by one question: <strong>"Does this help us complete Version 1?"</strong> If the answer is no, it is parked for Version 2.</p>
+</div>
+
+<h3>Version 1 Definition (Frozen)</h3>
+<p class="lead">An autonomous 6-wheel indoor rover capable of building a map, localizing itself, navigating autonomously, avoiding obstacles and following a person. Everything else is an extension.</p>
+
+<h3>Version 1 Hardware</h3>
+<div class="grid2">
+  <div class="card">
+    <h4>Included</h4>
+    <ul><li>6WD chassis</li><li>6 motors + encoders</li><li>Jetson Orin Nano · ESP32</li><li>LiDAR · Intel RealSense D455 · IMU</li><li>Battery &amp; power system</li><li>Pan-tilt camera head</li></ul>
+  </div>
+  <div class="card">
+    <h4>Not Yet</h4>
+    <div class="tags" style="margin:0;">
+      <span class="tag no">No arms</span>
+      <span class="tag no">No exoskeleton</span>
+      <span class="tag no">No wrist cameras</span>
+      <span class="tag no">No DJI integration</span>
+    </div>
+    <p style="margin-top:2mm;">The chassis is still designed with mounting points and cable routes so these can be added later <strong>without redesigning the robot</strong>.</p>
+  </div>
+</div>
+
+<h3>Version 1 Software</h3>
+<div class="tags">
+  <span class="tag">ROS 2</span>
+  <span class="tag">Gazebo simulation</span>
+  <span class="tag">URDF/Xacro</span>
+  <span class="tag">Nav2</span>
+  <span class="tag">RTAB-Map</span>
+  <span class="tag">YOLO</span>
+  <span class="tag">Mission Manager</span>
+  <span class="tag">Dashboard (basic)</span>
+</div>
+
+<h3>Version 1 Dashboard</h3>
+<p>Only the essentials — no arm controls yet:</p>
+<div class="grid2">
+  <div class="card">
+    <h4>Monitoring</h4>
+    <ul><li>Live RealSense feed</li><li>SLAM map &amp; robot position</li><li>Battery level</li><li>CPU/GPU usage</li><li>Sensor health · System logs</li></ul>
+  </div>
+  <div class="card">
+    <h4>Control</h4>
+    <ul><li>Robot mode (Manual / Assisted / Autonomous)</li><li>Start mission</li><li>Return Home</li><li>Emergency Stop</li></ul>
+  </div>
+</div>
+
+<h3>Simplified October Architecture</h3>
+<p>To keep the codebase focused, the October architecture is deliberately simplified around a single Mission Manager:</p>
+<div class="tree">Mission Manager
+│
+├── <span class="dir">Navigation Manager</span>
+├── <span class="dir">Perception Manager</span>
+├── <span class="dir">Hardware Manager</span>
+├── <span class="dir">Dashboard Manager</span>
+└── <span class="dir">Safety Manager</span></div>
+<p>Deliberately absent — not deleted, simply not implemented yet:</p>
+<div class="tags">
+  <span class="tag no">Manipulation Manager</span>
+  <span class="tag no">Teleoperation Manager</span>
+</div>
+
+<h3>This Week</h3>
+<div class="stage">
+  <div class="badge"><div class="p">Day</div><div class="n">1</div></div>
+  <div class="body"><p>Finalize hardware · create Git repository · create project structure.</p></div>
+</div>
+<div class="stage">
+  <div class="badge"><div class="p">Day</div><div class="n">2</div></div>
+  <div class="body"><p>Design chassis layout · decide exact dimensions · place electronics.</p></div>
+</div>
+<div class="stage">
+  <div class="badge"><div class="p">Day</div><div class="n">3</div></div>
+  <div class="body"><p>Build the CAD model · start the URDF.</p></div>
+</div>
+<div class="stage">
+  <div class="badge"><div class="p">Day</div><div class="n">4</div></div>
+  <div class="body"><p>Spawn the robot in Gazebo · verify kinematics.</p></div>
+</div>
+<div class="stage">
+  <div class="badge"><div class="p">Day</div><div class="n">5</div></div>
+  <div class="body"><p>Set up ROS 2 · test simulated movement.</p></div>
+</div>
+
+<div class="callout">
+  <h3>Immediate Goal — End of Week</h3>
+  <p>A complete CAD concept, a ROS 2 workspace, a robot model in Gazebo, a basic local dashboard, and a digital AURA driving in simulation. Once that foundation works, moving to the physical rover becomes far more straightforward because the software and hardware are already aligned.</p>
+</div>
+</div>
+
+<!-- ============ 23. ROADMAP ============ -->
+<div class="section">
+<h2><span class="num">23</span>Long-Term Roadmap</h2>
+<div class="grid2">
+  <div class="card">
+    <h4>Version 1</h4>
+    <ul><li>Autonomous mobility</li><li>Indoor SLAM</li><li>Autonomous navigation</li><li>Multi-sensor fusion</li><li>Mission execution</li><li>Person following</li></ul>
+  </div>
+  <div class="card">
+    <h4>Version 2</h4>
+    <ul><li>Dual SO-101 robotic arms</li><li>DIY exoskeleton teleoperation</li><li>Head tracking</li><li>VR telepresence</li><li>Offline AI assistant</li><li>Learning from Demonstration (LeRobot)</li></ul>
+  </div>
+  <div class="card full" style="border-left-color:#123a63;">
+    <h4>Version 3</h4>
+    <ul style="columns:2;">
+      <li>Autonomous mobile manipulation</li>
+      <li>Multi-step task planning</li>
+      <li>Advanced human-robot interaction</li>
+      <li>Multi-room semantic mapping</li>
+      <li>Intelligent task execution</li>
+      <li>Fully modular robotics research platform</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- ============ 20. VISION & PHILOSOPHY ============ -->
+<div class="section">
+<h2><span class="num">24</span>Long-Term Vision &amp; Project Philosophy</h2>
+<p>AURA is designed as a modular robotics platform rather than a single-semester project. Future upgrades will include robotic manipulation, immersive teleoperation, wearable exoskeleton control, offline conversational AI and Learning from Demonstration — all while preserving the same mobility platform and software architecture. The objective is to continue developing AURA throughout the remainder of the undergraduate program into a research-grade autonomous mobile manipulation platform.</p>
+<div class="philosophy">
+  <div class="tag-line">Build once. Upgrade forever.</div>
+  <p>Every hardware and software decision should prioritize modularity, maintainability and future expansion. No subsystem should require redesign simply to add new capabilities. The robot should evolve through plug-and-play modules while preserving a stable, reliable autonomous core.</p>
+</div>
+</div>
+
+</body>
+</html>
